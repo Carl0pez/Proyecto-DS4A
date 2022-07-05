@@ -130,4 +130,3 @@ df_dpto_month = df_dpto_month.reset_index()
 #para grafico departamento x día
 df_dpto_day = df.groupby(["dia","departamento"])['cantidad'].sum()
 df_dpto_day = df_dpto_day.reset_index()
-
