@@ -4,7 +4,7 @@ import pickle
 from Dash.app_dataframe import df_hom
 
 
-def sarimax_forecast_city(SARIMAX_model, df, periods):
+def sarimax_forecast_city(SARIMAX_model, df, city, periods):
     # Forecast
     n_periods = periods
 
@@ -23,17 +23,20 @@ def sarimax_forecast_city(SARIMAX_model, df, periods):
 
     # Plot
     plt.figure(figsize=(15,7))
-    plt.plot(df["total"], color='#1f76b4')
-    plt.plot(fitted_series, color='darkgreen')
+    plt.plot(df["total"], color='#1f76b4', label = 'Original')
+    plt.plot(fitted_series, color='darkgreen', label = 'Prediction')
     plt.fill_between(lower_series.index, 
                     lower_series, 
                     upper_series, 
                     color='k', alpha=.15)
-
-    plt.title("SARIMAX - Forecast of Airline Passengers")
+                    
+    plt.ylabel('Homicides')
+    plt.xlabel('Year')
+    plt.legend()
+    plt.title("SARIMAX - Homicides per year")
     plt.show()
 
-city = 'med'
+city = 'to'
 
 if city == 'med':
     df = df_hom[df_hom['municipio']=='MEDELLÍN (CT)'][['fecha','cantidad']]
@@ -60,4 +63,4 @@ else:
 
 with open(name, 'rb') as pkl:
     SARIMA_model = pickle.load(pkl)
-    sarimax_forecast_city(SARIMA_model,df, 5)
+    sarimax_forecast_city(SARIMA_model,df, city, 5)
